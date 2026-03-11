@@ -1,0 +1,11 @@
+.table-container {
+  max-height: 350px; /* Set fixed height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 1px solid #ddd; /* Optional: Add border for visibility */
+}
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa; /* Match Bootstrap's table-light background */
+  z-index: 1; /* Ensure it stays above body rows */
+}

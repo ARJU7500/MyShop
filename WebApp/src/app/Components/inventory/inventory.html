@@ -2,102 +2,130 @@
   <h2 class="mt-2">Inventory</h2>
   <hr />
   <form class="bg-white p-3 shadow-sm">
-  <div class="row">
-    <div class="col">
-      <div class="mb-3">
-        <label for="productCode" class="form-label fw-bold">Product Code</label>
-        <input
-          type="text"
-          class="form-control"
-          id="productCode"
-          name="productCode"
-          placeholder="Enter product code"
-          [(ngModel)]="inventoryData.productCode"
-        />
+    <div class="row">
+      <div class="col">
+        <div class="mb-3">
+          <label for="productCode" class="form-label fw-bold">Product Code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="productCode"
+            name="productCode"
+            placeholder="Enter product code"
+            [(ngModel)]="inventoryData.productCode"
+            required
+            #productCode="ngModel"
+          />
+
+          <div *ngIf="submitted && productCode.invalid" class="text-danger">
+            Product Code is required
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="productName" class="form-label fw-bold">Product Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="productName"
+            name="productName"
+            placeholder="Enter product name"
+            [(ngModel)]="inventoryData.productName"
+            required
+            #productName="ngModel"
+          />
+
+          <div *ngIf="submitted && productName.invalid" class="text-danger">
+            Product Name is required
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="StockAvaible" class="form-label fw-bold">Stock Available</label>
+          <input
+            type="number"
+            class="form-control"
+            id="StockAvaible"
+            name="StockAvaible"
+            placeholder="Enter stock available"
+            [(ngModel)]="inventoryData.StockAvaible"
+            required min="2"
+            #StockAvaible="ngModel"
+          />
+
+          <div *ngIf="submitted && StockAvaible.invalid" class="text-danger">
+            Stock Available is required(>=2)
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="reOrderStock" class="form-label fw-bold">Reorder Stock</label>
+          <input
+            type="number"
+            class="form-control"
+            id="reOrderStock"
+            name="reOrderStock"
+            placeholder="Enter Reorder Stock"
+            [(ngModel)]="inventoryData.reOrderStock"
+            required min="2"
+            #reOrderStock="ngModel"
+          />
+
+          <div *ngIf="submitted && reOrderStock.invalid" class="text-danger">
+            Reorder Stock is required(>=2)
+          </div>
+        </div>
       </div>
     </div>
+    <!-- include inventoryId as hidden control so ngModel updates it -->
+    <input type="hidden" name="inventoryId" [(ngModel)]="inventoryData.inventoryId" />
     <div class="col">
       <div class="mb-3">
-        <label for="productName" class="form-label fw-bold">Product Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="productName"
-          name="productName"
-          placeholder="Enter product name"
-          [(ngModel)]="inventoryData.productName"
-        />
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
       </div>
     </div>
-    <div class="col">
-      <div class="mb-3">
-        <label for="StockAvailable" class="form-label fw-bold">Stock Available</label>
-        <input
-          type="number"
-          class="form-control"
-          id="StockAvailable"
-          name="StockAvailable"
-          placeholder="Enter stock available"
-          [(ngModel)]="inventoryData.StockAvailable"
-        />
-      </div>
-    </div>
-    <div class="col">
-      <div class="mb-3">
-        <label for="reorderStock" class="form-label fw-bold">Reorder Stock</label>
-        <input
-          type="number"
-          class="form-control"
-          id="reorderStock"
-          name="reorderStock"
-          placeholder="Enter Reorder Stock"
-          [(ngModel)]="inventoryData.reorderStock"
-        />
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="mb-3">
-      <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
-    </div>
-  </div>
-</form>
+  </form>
 
   <h2 class="mt-2">Inventory Details</h2>
   <hr />
-  <div class="table-container-full">
-  <table class="table table-hover">
-    <thead class="table-light">
-      <tr>
-        <th scope="col">Sr. No.</th>
-        <th scope="col">Product Code</th>
-        <th scope="col">Product Name</th>
-        <th scope="col">Stock Available</th>
-        <th scope="col">Reorder Stock</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of invertoryDto;let i=index">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{item.ProductCode}}</td>
-        <td>{{item.ProductName}}</td>
-        <td>{{item.StockAvaible}}</td>
-        <td>{{item.ReOrderStock}}</td>
-        <td>
-          <button class="btn btn-sm btn-primary" (click)="onEdit(item)" >Edit</button>&nbsp;
-          <button class="btn btn-sm btn-danger" (click)="onDelete(item.InventoryId)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-    <tr class="table-light fw-bold">
-      <td colspan="3">Total</td>
-      <td>{{ totalStockAvailable }}</td>
-      <td>{{ totalReorderStock }}</td>
-      <td></td>
-    </tr>
-  </tfoot>
-  </table>
+  <div class="table-container">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Sr. No.</th>
+          <th scope="col">Product Code</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Stock Available</th>
+          <th scope="col">Reorder Stock</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of invertoryDto; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ item.ProductCode }}</td>
+          <td>{{ item.ProductName }}</td>
+          <td>{{ item.StockAvaible }}</td>
+          <td>{{ item.ReOrderStock }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="onEdit(item)">Edit</button>&nbsp;
+            <button class="btn btn-sm btn-danger" (click)="onDelete(item.InventoryId)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="table-light fw-bold">
+          <td colspan="3">Total</td>
+          <td>{{ totalStockAvailable }}</td>
+          <td>{{ totalReorderStock }}</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 </div>

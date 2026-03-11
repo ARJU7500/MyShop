@@ -1,1 +1,95 @@
-<p>customer works!</p>
+<div class="row mx-3">
+  <h2 class="mt-2">Customer Master</h2>
+  <hr />
+  <form class="bg-white p-3 shadow-sm">
+    <div class="row">
+      <div class="col">
+        <div class="mb-3">
+          <label for="CustomerCode" class="form-label fw-bold">Customer Code</label>
+          <input
+            type="text"
+            class="form-control"
+            id="CustomerCode"
+            name="CustomerCode"
+            placeholder="Enter customer code"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="CustomerName" class="form-label fw-bold">Customer Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="CustomerName"
+            name="CustomerName"
+            placeholder="Enter Customer name"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="EmailId" class="form-label fw-bold">Email Id</label>
+          <input
+            type="email"
+            class="form-control"
+            id="EmailId"
+            name="EmailId"
+            placeholder="Enter EmailId"
+          />
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-3">
+          <label for="Contact" class="form-label fw-bold">Contact</label>
+          <input
+            type="number"
+            class="form-control"
+            id="Contact"
+            name="Contact"
+            placeholder="Enter Contact"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- include customerId as hidden control so ngModel updates it -->
+    <input type="hidden" name="CustomerId" />
+    <div class="col">
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+      </div>
+    </div>
+  </form>
+
+  <h2 class="mt-2">Customer Details</h2>
+  <hr />
+  <div class="table-container">
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Sr. No.</th>
+          <th scope="col">Customer Code</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Email Id</th>
+          <th scope="col">Contact</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr *ngFor="let item of invertoryDto; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ item.ProductCode }}</td>
+          <td>{{ item.ProductName }}</td>
+          <td>{{ item.StockAvaible }}</td>
+          <td>{{ item.ReOrderStock }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" (click)="onEdit(item)">Edit</button>&nbsp;
+            <button class="btn btn-sm btn-danger" (click)="onDelete(item.InventoryId)">
+              Delete
+            </button>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</div>
