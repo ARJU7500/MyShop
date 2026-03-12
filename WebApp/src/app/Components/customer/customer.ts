@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-customer',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './customer.html',
   styleUrl: './customer.css',
 })
 export class Customer {
   httpClient = inject(HttpClient);
+  customerDto: any[] = []; // to store customer data from form, initialize to avoid undefined
   customerData = {
     CustomerId: 0,
     CustomerCode: '',
@@ -34,13 +35,15 @@ export class Customer {
     }
     return true;
   }
+  //====search all data from api and display in table========
+
   //===post data on api or save data into database========
   onSubmit(): void {
     //=============call validation method before submitting form========
     if (!this.onValidation()) {
       return;
     }
-    let apiUrl = 'https://localhost:7188/api/customer';
+    let apiUrl = 'https://localhost:7188/api/CustomerMaster';
     let httpOptions = {
       headers: new HttpHeaders({
         Authorization: 'arjun-auth-token',
@@ -64,16 +67,15 @@ export class Customer {
       //====call api to insert customer data====
       this.httpClient.post(apiUrl, payload, httpOptions).subscribe({
         next: (v) => {
-          (console.log(v),
-          alert('Customer data submitted successfully!'));
+          (console.log(v), alert('Customer data submitted successfully!'));
         },
-        error: (error)=>{
+        error: (error) => {
           console.log(error);
-          alert("Error saving customer data. Please try again later.");
+          alert('Error saving customer data. Please try again later.');
         },
       });
     } else {
-        //===call api to update customer data====
+      //===call api to update customer data====
     }
   }
 }

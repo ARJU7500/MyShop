@@ -12,7 +12,14 @@
             id="CustomerCode"
             name="CustomerCode"
             placeholder="Enter customer code"
+            [(ngModel)]="customerData.CustomerCode"
+            required
+            #CustomerCode="ngModel"
           />
+
+          <div *ngIf="submitted && CustomerCode.invalid" class="text-danger">
+            Customer Code is required
+          </div>
         </div>
       </div>
       <div class="col">
@@ -24,7 +31,14 @@
             id="CustomerName"
             name="CustomerName"
             placeholder="Enter Customer name"
+            required
+            [(ngModel)]="customerData.CustomerName"
+            #CustomerName="ngModel"
           />
+
+          <div *ngIf="submitted && CustomerName.invalid" class="text-danger">
+            Customer Name is required
+          </div>
         </div>
       </div>
       <div class="col">
@@ -36,7 +50,11 @@
             id="EmailId"
             name="EmailId"
             placeholder="Enter EmailId"
+            required
+            [(ngModel)]="customerData.EmailId"
           />
+
+          <div *ngIf="submitted && EmailId.invalid" class="text-danger">Email Id is required</div>
         </div>
       </div>
       <div class="col">
@@ -48,12 +66,16 @@
             id="Contact"
             name="Contact"
             placeholder="Enter Contact"
+            required
+            [(ngModel)]="customerData.Contact"
           />
+
+          <div *ngIf="submitted && Contact.invalid" class="text-danger">Contact is required</div>
         </div>
       </div>
     </div>
     <!-- include customerId as hidden control so ngModel updates it -->
-    <input type="hidden" name="CustomerId" />
+    <input type="hidden" name="CustomerId" [(ngModel)]="customerData.CustomerId" />
     <div class="col">
       <div class="mb-3">
         <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
@@ -76,19 +98,19 @@
         </tr>
       </thead>
       <tbody>
-        <!-- <tr *ngFor="let item of invertoryDto; let i = index">
+        <tr *ngFor="let item of customerDto; let i = index">
           <th scope="row">{{ i + 1 }}</th>
-          <td>{{ item.ProductCode }}</td>
-          <td>{{ item.ProductName }}</td>
-          <td>{{ item.StockAvaible }}</td>
-          <td>{{ item.ReOrderStock }}</td>
-          <td>
+          <td>{{ item.CustomerCode }}</td>
+          <td>{{ item.CustomerName }}</td>
+          <td>{{ item.EmailId }}</td>
+          <td>{{ item.Contact }}</td>
+          <!-- <td>
             <button class="btn btn-sm btn-primary" (click)="onEdit(item)">Edit</button>&nbsp;
-            <button class="btn btn-sm btn-danger" (click)="onDelete(item.InventoryId)">
+            <button class="btn btn-sm btn-danger" (click)="onDelete(item.CustomerId)">
               Delete
             </button>
-          </td>
-        </tr> -->
+          </td> -->
+        </tr>
       </tbody>
     </table>
   </div>
