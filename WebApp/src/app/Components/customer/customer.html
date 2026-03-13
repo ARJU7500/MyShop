@@ -52,6 +52,7 @@
             placeholder="Enter EmailId"
             required
             [(ngModel)]="customerData.EmailId"
+            #EmailId="ngModel"
           />
 
           <div *ngIf="submitted && EmailId.invalid" class="text-danger">Email Id is required</div>
@@ -61,13 +62,14 @@
         <div class="mb-3">
           <label for="Contact" class="form-label fw-bold">Contact</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
             id="Contact"
             name="Contact"
             placeholder="Enter Contact"
             required
             [(ngModel)]="customerData.Contact"
+            #Contact="ngModel"
           />
 
           <div *ngIf="submitted && Contact.invalid" class="text-danger">Contact is required</div>
@@ -104,12 +106,12 @@
           <td>{{ item.CustomerName }}</td>
           <td>{{ item.EmailId }}</td>
           <td>{{ item.Contact }}</td>
-          <!-- <td>
+          <td>
             <button class="btn btn-sm btn-primary" (click)="onEdit(item)">Edit</button>&nbsp;
             <button class="btn btn-sm btn-danger" (click)="onDelete(item.CustomerId)">
               Delete
             </button>
-          </td> -->
+          </td>
         </tr>
       </tbody>
     </table>

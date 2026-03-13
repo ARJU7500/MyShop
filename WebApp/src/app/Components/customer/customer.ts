@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-customer',
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './customer.html',
   styleUrl: './customer.css',
 })
@@ -15,7 +16,7 @@ export class Customer {
     CustomerCode: '',
     CustomerName: '',
     EmailId: '',
-    Contact: 0,
+    Contact: '',
     CreatedBy: '',
     CreatedOn: '',
     UpdatedBy: '',
@@ -36,7 +37,40 @@ export class Customer {
     return true;
   }
   //====search all data from api and display in table========
-
+  ngOnInit():void{
+    this.CustomerAllDetails();
+  }
+  CustomerAllDetails(){
+    let apiUrl='https://localhost:7188/api/CustomerMaster';
+    this.httpClient.get<any[]>(apiUrl).subscribe((data)=>{
+      console.log("customer_data",data);
+      this.customerDto=data;
+    });
+    //=====reset form ========
+    this.customerData={
+      CustomerId: 0,
+      CustomerCode: '',
+      CustomerName: '',
+      EmailId: '',
+      Contact: '',
+      CreatedBy: '',
+      CreatedOn: '',
+      UpdatedBy: '',
+      UpdatedOn: '',
+    };
+  }
+  //====edit data on api and display in form========
+  onEdit(customer:any):void{
+    this.customerData.CustomerId=customer.CustomerId;
+    this.customerData.CustomerCode=customer.CustomerCode;
+    this.customerData.CustomerName=customer.CustomerName;
+    this.customerData.EmailId=customer.EmailId;
+    this.customerData.Contact=customer.Contact;
+  }
+  //====delete data on api and refresh table========
+  onDelete(customerId:number):void{
+    alert('Delete functionality is under development. Please try again later.');
+  }
   //===post data on api or save data into database========
   onSubmit(): void {
     //=============call validation method before submitting form========
@@ -52,7 +86,7 @@ export class Customer {
       ResponseType: 'text' as const,
     };
     const payload: any = {
-      customerId: this.customerData.CustomerId,
+      CustomerId: this.customerData.CustomerId,
       CustomerCode: this.customerData.CustomerCode,
       CustomerName: this.customerData.CustomerName,
       EmailId: this.customerData.EmailId,
@@ -62,12 +96,16 @@ export class Customer {
       UpdatedBy: this.customerData.UpdatedBy,
       UpdatedOn: this.customerData.UpdatedOn,
     };
+    console.log('Submitting new customer data:', payload);
     //====call api to submit customer data====
-    if (!this.customerData.CustomerId) {
+    if (!payload.CustomerId) {
       //====call api to insert customer data====
       this.httpClient.post(apiUrl, payload, httpOptions).subscribe({
         next: (v) => {
-          (console.log(v), alert('Customer data submitted successfully!'));
+        console.log(v);
+         alert('Customer data submitted successfully!');
+          this.CustomerAllDetails(); // refresh the customer list after successful submission
+          this.submitted = false; // reset the form state
         },
         error: (error) => {
           console.log(error);
@@ -76,6 +114,18 @@ export class Customer {
       });
     } else {
       //===call api to update customer data====
+      this.httpClient.put(apiUrl,payload,httpOptions).subscribe({
+        next:(v)=>{
+          console.log(v);
+          alert('Customer data updated successfully!');
+          this.CustomerAllDetails(); // refresh the customer list after successful update
+          this.submitted=false;
+        },
+        error:(error)=>{
+          console.log(error);
+          alert('Error updating customer data. Please try again later.');
+        },
+      });
     }
   }
 }

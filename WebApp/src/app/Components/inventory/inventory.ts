@@ -23,6 +23,26 @@ export class Inventory {
     UpdatedBy: '',
     UpdatedOn: '',
   };
+  // ================= Reset Form =================
+  resetForm() {
+
+    this.inventoryData = {
+
+      inventoryId: 0,
+      productCode: '',
+      productName: '',
+      StockAvaible: 0,
+      reOrderStock: 0,
+      CreatedBy: '',
+      CreatedOn: '',
+      UpdatedBy: '',
+      UpdatedOn: '',
+
+    };
+
+    this.submitted = false;
+
+  }
   // Getter for total Stock Available
   get totalStockAvailable(): number {
     // guard against undefined when view initializes
@@ -45,21 +65,7 @@ export class Inventory {
     this.httpClient.get<any[]>(apiUrl).subscribe((data) => {
       console.log('fresh list', data);
       this.invertoryDto = data;
-
-      // alert removed to prevent ExpressionChangedAfterItHasBeenCheckedError
     });
-    // reset form
-    this.inventoryData = {
-      inventoryId: 0,
-      productCode: '',
-      productName: '',
-      StockAvaible: 0,
-      reOrderStock: 0,
-      CreatedBy: '',
-      CreatedOn: '',
-      UpdatedBy: '',
-      UpdatedOn: '',
-    };
   }
   //=======update the data using inventory id========
   onEdit(inventory: any) {
@@ -77,7 +83,8 @@ export class Inventory {
     if (isDelete) {
       let apiUrl = `https://localhost:7188/api/inventory?inventoryId=${inventoryId}`;
       this.httpClient.delete(apiUrl).subscribe((data) => {
-        this.inventoryDetails(); // Refresh the inventory list after deletion
+        this.inventoryDetails();
+        this.resetForm()// Refresh the inventory list after deletion
         alert('Inventory item deleted successfully!');
         // alert('Inventory data after deletion: ' + JSON.stringify(this.invertoryDto));
       });
@@ -178,6 +185,7 @@ export class Inventory {
           alert('Inventory data submitted successfully!');
 
           this.inventoryDetails();
+          this.resetForm()
           this.submitted = false;
         },
 
@@ -193,6 +201,7 @@ export class Inventory {
           alert('Inventory data Updated successfully!');
 
           this.inventoryDetails();
+          this.resetForm()
           this.submitted = false;
         },
 
