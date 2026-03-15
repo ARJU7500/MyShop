@@ -69,8 +69,14 @@ export class Customer {
   }
   //====delete data on api and refresh table========
   onDelete(customerId:number):void{
-    alert('Delete functionality is under development. Please try again later.');
-  }
+    const isDelete = confirm('Are you sure you want to delete this Customer Data?');
+    if (isDelete) {
+  let apiUrl=`https://localhost:7188/api/CustomerMaster?customerId=${customerId}`;
+  this.httpClient.delete(apiUrl).subscribe((data)=>{
+    this.CustomerAllDetails();  // refresh the customer list after successful deletion
+    alert("Customer Master data delete Sucessefully"); // refresh the customer list after successful deletion
+  });
+  }}
   //===post data on api or save data into database========
   onSubmit(): void {
     //=============call validation method before submitting form========
